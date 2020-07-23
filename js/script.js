@@ -6,6 +6,7 @@ const pop = document.querySelector('#pop');
 let tanahSebelumnya;
 let selesai;
 let skor;
+let timeleft;
 
 function randomTanah(tanah) {
   const t = Math.floor(Math.random() * tanah.length);
@@ -23,7 +24,7 @@ function randomWaktu(min, max) {
 
 function munculkanTikus() {
   const tRandom = randomTanah(tanah);
-  const wRandom = randomWaktu(300, 1000);
+  const wRandom = randomWaktu(300, 600);
   tRandom.classList.add('muncul');
 
   setTimeout(() => {
@@ -36,12 +37,15 @@ function munculkanTikus() {
 
 function mulai() {
   selesai = false;
+  let waktu = 10; // detik
   skor = 0;
   papanSkor.textContent = 0;
+  countdown(waktu-1);
   munculkanTikus();
   setTimeout(() => {
     selesai = true;
-  }, 10000);
+    alert('Permainan selesai Skor anda ' + skor)
+  }, (waktu+1) * 1000);
 }
 
 function pukul() {
@@ -54,3 +58,14 @@ function pukul() {
 tikus.forEach(t => {
   t.addEventListener('click', pukul);
 });
+
+function countdown(waktuleft) {
+  var downloadTimer = setInterval(function(){
+    document.getElementById("countdown").innerHTML = waktuleft + " Detik";
+    waktuleft -= 1;
+    if(waktuleft < 0){
+      clearInterval(downloadTimer);
+      document.getElementById("countdown").innerHTML = "Waktu Habis";
+    }
+  }, 1000);
+}
